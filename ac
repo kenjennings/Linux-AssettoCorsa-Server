@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# quickie run Assetto Corsa server commands
+
+# assume we have a link in the home directory "AC" 
+# that points as so:
+
+#  TS -> Desktop/AC
+
+cd ${HOME}/AC
+
+if [ "$1" = "status" ] ; then echo "status unsupported"; fi
+
+if [ "$1" = "stop" ] ; then echo "I think stop is unsupported"; fi
+
+if [ "$1" = "start" ] ; then 
+nohup ./acServer 1>&2 >>~/AC/logs/current.logfile &
+fi
+
+if [ "$1" = "logs" ] ; then echo ${HOME}/Desktop/AC/logs ; cd logs ; ls -alt ; fi
+
+if [ "$1" = "" ] ; then echo "Usage:  ac [ status | stop | start | logs ]" ; fi
+
+

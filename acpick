@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# quickie configure Assetto Corsa server 
+
+# assume we have a link in the home directory "AC" 
+# that points as so:
+
+#  TS -> Desktop/AC
+
+declare -a TRACK_ARRAY
+declare -a TRACK_CONFIG_ARRAY
+declare -a CAR_ARRAY
+
+declare -i TRACK_INDEX=0
+declare -i CAR_INDEX=0
+
+cd ${HOME}/AC/content/tracks
+
+find . -print | while read i ; do
+    if [ -d ${i} ]  ; then
+        DNAME="`echo $i | grep -v data`"
+        if [ "$DNAME" == "" ] || [ "$DNAME" == "." ] ; then
+            TRACK=""
+            CONFIG_TRACK=""
+        else
+            TRACK="`echo $DNAME | cut -d'/' -f2`"
+            CONFIG_TRACK="`echo $DNAME | cut -d'/' -f3`"
+        fi
+	if [ "$TRACK" != "" ] ; then
+            ((TRACK_INDEX++))
+	    TRACK_ARRAY[$TRACK_INDEX]="$TRACK"
+	    TRACK_CONFIG_ARRAY[$TRACK_INDEX]="$CONFIG_TRACK"
+            echo $TRACK_INDEX " - " ${TRACK_ARRAY[$TRACK_INDEX]} "   " ${TRACK_CONFIG_ARRAY[$TRACK_INDEX]}
+	fi
+    fi
+done
+
+cd ../cars
+
+find . -print | while read i ; do
+    if [ -d ${i} ]  ; then
+        DNAME="`echo $i`"
+        if [ "$DNAME" == "" ] || [ "$DNAME" == "." ] ; then
+            CAR=""
+        else
+            CAR="`echo $DNAME | cut -d'/' -f2`"
+        fi
+	if [ "$CAR" != "" ] ; then
+            ((CAR_INDEX++))
+            CAR_ARRAY[$CAR_INDEX]="$CAR"
+            echo $CAR_INDEX " - " ${CAR_ARRAY[$CAR_INDEX]}
+	fi
+    fi
+done
+

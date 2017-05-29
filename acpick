@@ -7,6 +7,8 @@
 
 #  TS -> Desktop/AC
 
+#set -x
+
 declare -a TRACK_ARRAY
 declare -a TRACK_CONFIG_ARRAY
 declare -a CAR_ARRAY
@@ -16,7 +18,9 @@ declare -i CAR_INDEX=0
 
 cd ${HOME}/AC/content/tracks
 
-find . -print | while read i ; do
+ACDIRS=$( find . -type d -print)
+
+while read -r i ; do
     if [ -d ${i} ]  ; then
         DNAME="`echo $i | grep -v data`"
         if [ "$DNAME" == "" ] || [ "$DNAME" == "." ] ; then
@@ -26,18 +30,39 @@ find . -print | while read i ; do
             TRACK="`echo $DNAME | cut -d'/' -f2`"
             CONFIG_TRACK="`echo $DNAME | cut -d'/' -f3`"
         fi
+
 	if [ "$TRACK" != "" ] ; then
             ((TRACK_INDEX++))
 	    TRACK_ARRAY[$TRACK_INDEX]="$TRACK"
 	    TRACK_CONFIG_ARRAY[$TRACK_INDEX]="$CONFIG_TRACK"
-            echo $TRACK_INDEX " - " ${TRACK_ARRAY[$TRACK_INDEX]} "   " ${TRACK_CONFIG_ARRAY[$TRACK_INDEX]}
+            if [ "$CONFIG_TRACK" != "" ] ; then
+               echo ${TRACK_INDEX} "-" ${TRACK} "-" ${CONFIG_TRACK}
+            else
+               echo ${TRACK_INDEX} "-" ${TRACK} 
+            fi
 	fi
     fi
-done
+done <<EOF
+$ACDIRS
+EOF
+
+echo
+read -p "Choose a track number: " TCHOICE
+echo
+
+if [ "$TCHOICE" -lt "1" ] || [ "$TCHOICE" -gt "$TRACK_INDEX" ] ; then
+    echo "$TCHOICE is not a track on the list."
+    echo
+    exit
+fi
+
+echo
 
 cd ../cars
 
-find . -print | while read i ; do
+ACDIRS=$( find . -type d -print)
+
+while read -r i ; do
     if [ -d ${i} ]  ; then
         DNAME="`echo $i`"
         if [ "$DNAME" == "" ] || [ "$DNAME" == "." ] ; then
@@ -48,8 +73,29 @@ find . -print | while read i ; do
 	if [ "$CAR" != "" ] ; then
             ((CAR_INDEX++))
             CAR_ARRAY[$CAR_INDEX]="$CAR"
-            echo $CAR_INDEX " - " ${CAR_ARRAY[$CAR_INDEX]}
+            echo $CAR_INDEX "-" ${CAR_ARRAY[$CAR_INDEX]}
 	fi
     fi
-done
+done <<EOF
+$ACDIRS
+EOF
 
+echo
+read -p "Choose a car number: " CCHOICE
+echo
+
+if [ "$CCHOICE" -lt "1" ] || [ "$CCHOICE" -gt "$CAR_INDEX" ] ; then
+    echo "$CCHOICE is not a car on the list."
+    echo
+    exit
+fi
+
+cd ../../cfg
+
+echo "[SERVER]" >server_cfg.ini
+echo "NAME=Kens_Race_O_Rama" >>server_cfg.ini
+#echo "CARS=${CAR_ARRAY[$CCHOICE]}" >>server_cfg.ini
+echo "CARS=bmw_m3_e30;shelby_cobra_427sc;ruf_yellowbird;alfa_romeo_giulietta_qv;mercedes_sls_gt3;p4-5_2011" >>server_cfg.ini
+echo "CONFIG_TRACK=${TRACK_CONFIG_ARRAY[$TCHOICE]}" >>server_cfg.ini
+echo "TRACK=${TRACK_ARRAY[$TCHOICE]}" >>server_cfg.ini
+cat server_cfg.ini_part2 >>server_cfg.ini

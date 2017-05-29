@@ -1,9 +1,11 @@
 # Linux-AssettoCorsa-Server
 Lame tools for managing the server.
 
-ac - stupid script for launching the server, so I don't have to remember nohup blah de blah.
+# ac
+stupid script for launching the server, so I don't have to remember nohup blah de blah.
 
-acpick - WORK IN PROGRESS
+# acpick 
+WORK IN PROGRESS
 
 5/26 --The script examines the content directories on the server and enumerates all the tracks and cars available.   Eventually this will allow the user to choose a track and car and quickly rewrite the server config file....
 
@@ -15,4 +17,5 @@ Note that it only goes through the motion of choosing a car.  It turns out the c
 
 Also TO-DO -- On further testing it appears track names with a blank CONFIG_TRACK value are only valid if there is no other entry for that same track with a non-blank CONFIG_TRACK setting.  Therefore, the script needs to be modified to eliminate the blank CONFIG_TRACK entries when a subsequent non-blank CONFIG track is added.
 
-acpick.txt -  example output from an earlier version of the script enumerating the tracks and track variations, and the availabe cars.
+# acpick.txt
+example output from an earlier version of the script enumerating the tracks and track variations, and the availabe cars.

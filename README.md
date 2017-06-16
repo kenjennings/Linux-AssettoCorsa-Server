@@ -18,7 +18,7 @@ Note that it only goes through the motion of choosing a car.  It turns out the c
 Also TO-DO -- On further testing it appears track names with a blank CONFIG_TRACK value are only valid if there is no other entry for that same track with a non-blank CONFIG_TRACK setting.  Therefore, the script needs to be modified to eliminate the blank CONFIG_TRACK entries when a subsequent non-blank CONFIG track is added.
 
 # acpick.txt
-Example output from an earlier version of the script enumerating the tracks and track variations, and the available cars.  Note that the track list is technically not correct.  See note above about CONFIG_TRACK blank and non-blank value for the reason.  However, this is good enough to see the specific names of tracks and optional layouts which is needed for the server config file.
+Example output from an earlier version of the script enumerating the tracks and track variations, and the available cars.  Note that the track list is technically not correct.  See the note above concerning blank and non-blank CONFIG_TRACK values for the reason.  However, this is good enough to see the specific names of tracks and optional layouts which is needed for the server config file.
 
 TRACKS:
 

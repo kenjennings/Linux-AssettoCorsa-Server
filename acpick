@@ -5,7 +5,7 @@
 # assume we have a link in the home directory "AC" 
 # that points as so:
 
-#  TS -> Desktop/AC
+#  AC -> Desktop/AC
 
 #set -x
 
